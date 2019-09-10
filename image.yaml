@@ -1,0 +1,47 @@
+from: "jboss/openjdk18-rhel7:1.1"
+name: &name "fuse7/fuse-java-openshift"
+version: &version "1.4"
+
+labels:
+  - name: "maintainer"
+    value: "Otavio Piske <opiske@redhat.com>"
+  - name: "summary"
+    value: &summary "Build and run Spring Boot-based integration applications"
+  - name: "description"
+    value: *summary
+  - name: "io.k8s.description"
+    value: *summary
+  - name: "com.redhat.component"
+    value: "fuse-java-openshift-container"
+  - name: "io.fabric8.s2i.version.maven"    
+    value: "3.3.3-1.el7" # TODO: check if true and move to module
+  - name: "io.fabric8.s2i.version.jolokia"    
+    value: "1.5.0.redhat-1" # TODO: check if true and move to module
+  - name: "io.fabric8.s2i.version.prometheus.jmx_exporter"    
+    value: "0.3.1.redhat-00006" # TODO: check if true and move to module
+  - name: "io.k8s.display-name"
+    value: "Fuse for OpenShift"
+  - name: "io.openshift.tags"
+    value: "builder,java,fuse"
+  - name: "io.openshift.s2i.scripts-url" # TODO: check if not provided by module, if not - move it there
+    value: "image:///usr/local/s2i"
+  - name: "io.openshift.s2i.destination" # TODO: check if not provided by module, if not - move it there
+    value: "/tmp" 
+  - name: "org.jboss.deployments-dir"
+    value: &deployments-dir "/deployments"
+  - name: "com.redhat.deployments-dir"
+    value: *deployments-dir
+  - name: "com.redhat.dev-mode"
+    value: "JAVA_DEBUG:false"
+  - name: "com.redhat.dev-mode.port"
+    value: "JAVA_DEBUG_PORT:5005"
+
+envs:
+  - name: "FUSE_JAVA_IMAGE_NAME"
+    value: *name
+  - name: "FUSE_JAVA_IMAGE_VERSION"
+    value: *version
+
+    # AB_JOLOKIA_PASSWORD_RANDOM="true" \
+    # AB_JOLOKIA_AUTH_OPENSHIFT="true" \
+    # JAVA_DATA_DIR="/deployments/data"
